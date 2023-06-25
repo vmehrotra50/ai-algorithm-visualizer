@@ -1,8 +1,10 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { dfsStep } from '../algorithms/search';
 
-const NODE_TYPES = {
+export const NODE_TYPES = {
     UNVISITED: "white",
     VISITED: "yellow",
+    PATH: "blue",
     START: "green",
     GOAL: "red"
 }
@@ -27,33 +29,77 @@ export default function Graph(props){
         height: props.height,
         width: props.width
     })
+    
     const [start, setStart] = useState({
         x: props.start_x,
         y: props.start_y
     })
+    
     const [goal, setGoal] = useState({
         x: props.goal_x,
         y: props.goal_y
     })
 
-    let grid = new Array(graphDim.height);
+    const [isAlgorithmRunning, setAlgorithmRunning] = useState(false);
+
+    let blank_grid = new Array(graphDim.height);
 
     for (let i = 0; i < graphDim.height; i++) {
-        grid[i] = new Array(graphDim.width)
+        blank_grid[i] = new Array(graphDim.width)
         for (let j = 0; j < graphDim.width; j++) {
-            grid[i][j] = <Square type={NODE_TYPES.UNVISITED} />;
+            blank_grid[i][j] = NODE_TYPES.UNVISITED;
         }
     }
 
-    grid[start.y][start.x] = <Square type={NODE_TYPES.START} />
-    grid[goal.y][goal.x] = <Square type={NODE_TYPES.GOAL} />
+    blank_grid[start.y][start.x] = NODE_TYPES.START
+    blank_grid[goal.y][goal.x] = NODE_TYPES.GOAL
+    const [graph, setGraph] = useState(blank_grid);
 
-    const [graph, setGraph] = useState(grid)
+    useEffect(() => {
+        resetBoardState();
+        if (!isAlgorithmRunning) initiateDfs();
+    }, []);
+
+
+    const resetBoardState = () => {
+        let blank_grid = new Array(graphDim.height);
+
+        for (let i = 0; i < graphDim.height; i++) {
+            blank_grid[i] = new Array(graphDim.width)
+            for (let j = 0; j < graphDim.width; j++) {
+                blank_grid[i][j] = NODE_TYPES.UNVISITED;
+            }
+        }
+
+        blank_grid[start.y][start.x] = NODE_TYPES.START
+        blank_grid[goal.y][goal.x] = NODE_TYPES.GOAL
+
+        setGraph(blank_grid)
+    };
+
+    const initiateDfs = () => {
+        let visited = new Set();
+        let stack = new Array();
+        setAlgorithmRunning(true);
+        stack.push(start)
+
+        const interval = setInterval(() => {
+            let finished = dfsStep(visited, stack, graph, setGraph, start, goal);
+            console.log(stack)
+
+            if (finished) {
+                setAlgorithmRunning(false);
+                clearInterval(interval);
+            }
+        }, 1000);
+    }
 
     return (
         graph.map(row => {
             return <div>
-                {row}
+                {row.map(val => {
+                    return <Square type={val} />
+                })}
             </div>
         })
     )

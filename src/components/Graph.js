@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { dfsStep } from '../algorithms/search';
+import { GraphAlgorithmsView } from '../views/GraphAlgorithms';
 
 export const NODE_TYPES = {
     UNVISITED: "white",
@@ -42,6 +43,25 @@ export default function Graph(props){
 
     const [isAlgorithmRunning, setAlgorithmRunning] = useState(false);
 
+    const initiateDfs = () => {
+        let visited = new Set();
+        let stack = new Array();
+        setAlgorithmRunning(true);
+        stack.push(start)
+
+        const interval = setInterval(() => {
+            let finished = dfsStep(visited, stack, graph, setGraph, start, goal);
+            console.log(stack)
+
+            if (finished) {
+                setAlgorithmRunning(false);
+                clearInterval(interval);
+            }
+        }, 1000);
+    }
+
+    const algoMap = new Map([["DFS", initiateDfs]]);
+
     let blank_grid = new Array(graphDim.height);
 
     for (let i = 0; i < graphDim.height; i++) {
@@ -82,25 +102,26 @@ export default function Graph(props){
             width: props.width,
             height: props.height
         });
-        resetBoardState();
+        setStart({
+            x: props.start_x,
+            y: props.start_y
+        })
+        setGoal({
+            x: props.goal_x,
+            y: props.goal_y
+        })
+
+        if (props.runAlgo) {
+            algoMap.get(props.algo)();
+        }
+
     }, [props]);
 
-    const initiateDfs = () => {
-        let visited = new Set();
-        let stack = new Array();
-        setAlgorithmRunning(true);
-        stack.push(start)
+    useEffect(() => {
+        resetBoardState();
+    }, [graphDim, start, goal])
 
-        const interval = setInterval(() => {
-            let finished = dfsStep(visited, stack, graph, setGraph, start, goal);
-            console.log(stack)
-
-            if (finished) {
-                setAlgorithmRunning(false);
-                clearInterval(interval);
-            }
-        }, 1000);
-    }
+    
 
     return (
         <>

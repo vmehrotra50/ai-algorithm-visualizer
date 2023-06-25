@@ -46,10 +46,12 @@ export function dfsStep(visited, stack, graph, setGraph, start, goal) {
     }
 
     // 3. Update graph
-    if (current.x != start.x && current.y != start.y) {
-        new_graph[current.y][current.x] = NODE_TYPES.PATH;
-        console.log("good")
-    }
+    // if (current.x != start.x && current.y != start.y) {
+    new_graph[current.y][current.x] = NODE_TYPES.PATH;
+    new_graph[start.y][start.x] = NODE_TYPES.START;
+    new_graph[goal.y][goal.x] = NODE_TYPES.GOAL;
+        // console.log("good")
+    // }
     setGraph(new_graph);
 
     return false // function returns whether DFS is done or not

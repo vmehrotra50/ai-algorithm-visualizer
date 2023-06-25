@@ -95,12 +95,17 @@ export default function Graph(props){
     }
 
     return (
-        graph.map(row => {
-            return <div>
-                {row.map(val => {
-                    return <Square type={val} />
-                })}
-            </div>
-        })
+        <>
+            {graph.map(row => {
+                return (
+                    <div>
+                        {row.map(val => {
+                            return <Square type={val} />
+                        })}
+                    </div>
+                )
+            })}
+            { isAlgorithmRunning ? <p>running...</p> : <p></p> }
+        </>
     )
 }

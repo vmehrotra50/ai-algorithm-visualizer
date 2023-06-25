@@ -57,7 +57,7 @@ export default function Graph(props){
 
     useEffect(() => {
         resetBoardState();
-        if (!isAlgorithmRunning) initiateDfs();
+        // if (!isAlgorithmRunning) initiateDfs();
     }, []);
 
 
@@ -76,6 +76,14 @@ export default function Graph(props){
 
         setGraph(blank_grid)
     };
+
+    useEffect(() => {
+        setGraphDim({
+            width: props.width,
+            height: props.height
+        });
+        resetBoardState();
+    }, [props]);
 
     const initiateDfs = () => {
         let visited = new Set();

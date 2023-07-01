@@ -47,7 +47,7 @@ export default function Graph(props){
         let visited = new Set();
         let stack = new Array();
         setAlgorithmRunning(true);
-        stack.push(start)
+        stack.push(start);
 
         const interval = setInterval(() => {
             let finished = dfsStep(visited, stack, graph, setGraph, start, goal);

@@ -20,28 +20,28 @@ export function dfsStep(visited, stack, graph, setGraph, start, goal) {
         let next = {x: current.x - 1, y: current.y};
         if (!visited.has(JSON.stringify(next))) {
             stack.push(next);
-            new_graph[next.y][next.x] = NODE_TYPES.VISITED;
+            if (new_graph[next.y][next.x] != NODE_TYPES.PATH) new_graph[next.y][next.x] = NODE_TYPES.VISITED;
         }
     } 
     if (current.x + 1 < graph[0].length) {
         let next = {x: current.x + 1, y: current.y}
         if (!visited.has(JSON.stringify(next))) {
             stack.push(next)
-            new_graph[next.y][next.x] = NODE_TYPES.VISITED;
+            if (new_graph[next.y][next.x] != NODE_TYPES.PATH) new_graph[next.y][next.x] = NODE_TYPES.VISITED;
         }
     }
     if (current.y - 1 >= 0) {
         let next = {x: current.x, y: current.y - 1}
         if (!visited.has(JSON.stringify(next))) {
             stack.push(next)
-            new_graph[next.y][next.x] = NODE_TYPES.VISITED;
+            if (new_graph[next.y][next.x] != NODE_TYPES.PATH) new_graph[next.y][next.x] = NODE_TYPES.VISITED;
         }
     }
     if (current.y + 1 < graph.length) {
         let next = {x: current.x, y:current.y + 1}
         if (!visited.has(JSON.stringify(next))) {
             stack.push(next)
-            new_graph[next.y][next.x] = NODE_TYPES.VISITED;
+            if (new_graph[next.y][next.x] != NODE_TYPES.PATH) new_graph[next.y][next.x] = NODE_TYPES.VISITED;
         }
     }
 

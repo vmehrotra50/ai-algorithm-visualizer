@@ -24,6 +24,12 @@ function Square(props) {
     )
 }
 
+function Node(props) {
+    const [val, setVal] = useState(props.val); // NOTE: make sure to pass in value throuugh props
+    const [neighbors, setNeighbors] = useState([]);
+
+}
+
 export default function Graph(props){
     const [graphDim, setGraphDim] = useState({
         height: props.height,
@@ -41,6 +47,12 @@ export default function Graph(props){
     })
 
     const [isAlgorithmRunning, setAlgorithmRunning] = useState(false);
+
+
+    // TODO: write algorithm to render all nodes in graph and select between grid vs. graph
+    const renderNodes = () => {
+
+    };
 
     const initiateDfs = () => {
         let visited = new Set();

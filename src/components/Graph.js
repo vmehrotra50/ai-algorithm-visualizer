@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { dfsStep } from '../algorithms/search';
-import { GraphAlgorithmsView } from '../views/GraphAlgorithms';
 
 export const NODE_TYPES = {
     UNVISITED: "white",

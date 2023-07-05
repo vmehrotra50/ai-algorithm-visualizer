@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, TextField, Button } from "@mui/material";
+import { Text, TextField, Button, MenuItem, Select } from "@mui/material";
 import Graph from "../components/Graph";
 
 
@@ -21,8 +21,22 @@ export function GraphAlgorithmsView() {
     let start_y = startY;
 
     return (
-        <div style={{}}>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center', marginBottom: 10 }}>
+        <>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={algo}
+                label="Algo"
+                onChange={(event) => {setAlgo(event.target.value)}}
+                style={{marginTop: 10}}
+            >
+                <MenuItem value={'DFS'}>DFS</MenuItem>
+                <MenuItem value={'BFS'}>BFS</MenuItem>
+                <MenuItem value={'UCS'}>Dijkstra's Algorithm</MenuItem>
+                <MenuItem value={'A*'}>A* Algorithm</MenuItem>
+            </Select>
+            
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center', marginBottom: 10, marginTop: 50 }}>
                 <p style={{marginRight: 5, marginTop: 'auto', marginBottom: 'auto'}}>Board Dimensions:</p>
                 <TextField style={{margin: 5, width: 60}} onChange={(e) => width = e.target.value} />
                 <TextField style={{margin: 5, width: 60}} onChange={(e) => height = e.target.value} />
@@ -51,6 +65,6 @@ export function GraphAlgorithmsView() {
                 }}>Set</Button>
             </div>
             <Button onClick={() => setInitiateAlgo(true)}>Start</Button>
-        </div>
+        </>
     ) 
 }
